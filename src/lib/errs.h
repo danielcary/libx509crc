@@ -1,0 +1,35 @@
+#pragma once
+
+#define NOT_REVOKED                         (0)
+#define REVOKED                             (1)
+
+#define ERR_OCSP_NO_PEER_CERT               (100)
+#define ERR_OCSP_MUST_STAPLE                (101)
+#define ERR_OCSP_PEER_CHAIN_ERR             (102)
+#define ERR_OCSP_CERT_TO_ID_FAIL            (103)
+#define ERR_OCSP_NO_ISSUER_CERT             (104)
+#define ERR_OCSP_NO_OCSP_URI                (105)
+#define ERR_OCSP_NO_CONNECT                 (106)
+#define ERR_OCSP_NO_REQUEST_CTX             (107)
+#define ERR_OCSP_NO_RESPONSE                (108)
+#define ERR_OCSP_UNSUCCESSFUL_RES           (110)
+#define ERR_OCSP_NULL_RES                   (120)
+#define ERR_OCSP_GET_STORE                  (121)
+#define ERR_OCSP_BASIC_VERIFY               (122)
+#define ERR_OCSP_CHECK_VALIDITY             (123)
+#define ERR_OCSP_UNKNOWN_STATUS             (124)
+
+#define ERR_STAPLING_NO_RESPONSE            (200)
+#define ERR_STAPLING_RESPONSE_PARSE_ERR     (201)
+
+#define ERR_CRL_UNABLE_TO_RETRIEVE_CRL      (300)
+#define ERR_CRL_DID_NOT_VERIFY              (301)
+#define ERR_CRL_ERROR_CHECKING_CRL          (302)
+#define ERR_CRL_NO_DIST_POINTS              (303)
+#define ERR_CRL_NO_SSL_CTX                  (304)
+#define ERR_CRL_NO_X509_STORE_OBTAINED      (305)
+#define ERR_CRL_NO_PEER_CERT_CHAIN          (306)
+#define ERR_CRL_NO_PEER_CERT                (307)
+
+#define ERR_TRANSPARENCY_CANT_READ_CT_LOGS  (400)
+#define ERR_TRANSPARENCY_NO_SCT_OBTAINED    (401)

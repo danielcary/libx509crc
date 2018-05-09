@@ -1,0 +1,4 @@
+Successfully made the TCP connection to: localhost:49202.
+Error: Could not build a SSL session to: localhost:49202.
+Error creating connection!
+OCSP Stapling: Revoked
