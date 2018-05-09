@@ -1,5 +1,8 @@
 # libx509crc
-### NCSU Senior Design 2018 Spring Team 13 - Daniel Cary, Brian Hogan, Joseph Tew
+#### NCSU Senior Design 2018 Spring Team 13 - Daniel Cary, Brian Hogan, Joseph Tew
+The libx509crc project's goal is to provide developers working with OpenSSL applications a way to easily implement certificate revocation checking in their projects. Our library supports revocation checking via CRLs, OCSP, and OCSP stapling. There is also support for Certificate Transparency, the library is capable of obtaining all SCTs for a certificate and then ensures that no SCTs were issued in the future, as well as that each SCT has a logID of a known CT log.
+
+libx509crc is intended to be used as is, or as reference implementation.
 
 ### Requirements
 libx509crc, at the time of writing, works with OpenSSL v1.1.1-pre1 and up.
@@ -15,16 +18,15 @@ Once installed the [lib.h](/src/lib/lib.h) header file can be included to use th
 
 Example usage for OCSP revocation checking:
 ```
-  SSL* ssl = foo_connect_ssl();
+SSL* ssl = foo_connect_ssl();
 
-  int retval = validate_ocsp(ssl, NULL);
-	if(retval == 0) {
-		printf(“Not Revoked\n”);
-	} else if(retval == 1) {
-		printf(“Revoked\n”);
-  } else {
-    printf("Error! - %s\n", X509CRC_err_to_str(retval));
-  }
+int retval = validate_ocsp(ssl, NULL);
+if(retval == 0) {
+	printf(“Not Revoked\n”);
+} else if(retval == 1) {
+	printf(“Revoked\n”);
+} else {
+	printf("Error! - %s\n", X509CRC_err_to_str(retval));
 }
 ```
 
