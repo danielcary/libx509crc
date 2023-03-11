@@ -1,0 +1,9 @@
+*.gcno
+*.gcda
+driverprogram
+libx509crc.so
+
+# dirs
+bb_actual
+tests
+test/certs/root
