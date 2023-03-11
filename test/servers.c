@@ -84,19 +84,16 @@ int servers_join_https_dists() {
 static int load_certs(SSL_CTX *ctx, const char *server_name)
 {
     //  load certificates
-    char wd[1024];
-    char i_dir_path[1024];
-    getcwd(wd, 1024);
-    sprintf(i_dir_path, "%s/test/certs/root/ca/intermediate", wd);
+    char* wd = get_current_dir_name();
 
-    char cert_filepath[1024];
+    char cert_filepath[PATH_MAX];
     if(no_fullchain) {
-        sprintf(cert_filepath, "%s/certs/%s.cert.pem", i_dir_path, server_name);
+        sprintf(cert_filepath, "%s/test/certs/root/ca/intermediate/certs/%s.cert.pem", wd, server_name);
     } else {
-        sprintf(cert_filepath, "%s/certs/%s.fullchain.pem", i_dir_path, server_name);
+        sprintf(cert_filepath, "%s/test/certs/root/ca/intermediate/certs/%s.fullchain.pem", wd, server_name);
     }
-    char key_filepath[1024];
-    sprintf(key_filepath, "%s/private/%s.key.pem", i_dir_path, server_name);
+    char key_filepath[PATH_MAX];
+    sprintf(key_filepath, "%s/test/certs/root/ca/intermediate/private/%s.key.pem", wd, server_name);
 
     int ret = no_fullchain ? 
         SSL_CTX_use_certificate_file(ctx, (const char*)cert_filepath, SSL_FILETYPE_PEM)
@@ -137,13 +134,10 @@ static pthread_t servers_start(const char* name, int port)
 static int stapling_cb(SSL* ssl, void* arg) 
 {
     //  load certificates
-    char wd[1024];
-    char ca_dir_path[1024];
-    getcwd(wd, 1024);
-    sprintf(ca_dir_path, "%s/test/certs/root/ca", wd);
+    char* wd = get_current_dir_name();
 
-    char i_path[1024];
-    sprintf(i_path, "%s/intermediate/certs/intermediate.cert.pem", ca_dir_path);
+    char i_path[PATH_MAX];
+    sprintf(i_path, "%s/test/certs/root/ca/intermediate/certs/intermediate.cert.pem", wd);
 
     FILE *i_fp = fopen(i_path, "r");
 
@@ -307,9 +301,8 @@ static void *servers_start_crl_thread(void *args)
     bool use_ssl = ((void**)args)[3];
 
     // load crl
-    char wd[1024];
-    char crl_path[1024];
-    getcwd(wd, 1024);
+    char* wd = get_current_dir_name();
+    char crl_path[PATH_MAX];
     sprintf(crl_path, "%s/test/certs/root/ca/intermediate/crl/intermediate.crl.der", wd);
 
     FILE* crl_fp = fopen(crl_path, "r+");

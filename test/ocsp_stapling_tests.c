@@ -207,10 +207,9 @@ int stapling_callback_test_helper(SSL *ssl, void *arg) {
 static int connect_to(const char* host, int port, int usedir) {
     ssl_ctx = SSL_CTX_new(SSLv23_client_method());
     if(usedir){
-        char buf[1024];
-        char dir[1024];
-        getcwd(buf, 1024);
-        sprintf(dir, "%s/test/certs/root/ca/certs", buf);
+        char dir[PATH_MAX];
+        char* wd = get_current_dir_name();
+        sprintf(dir, "%s/test/certs/root/ca/certs", wd);
         SSL_CTX_load_verify_locations(ssl_ctx, NULL, dir); 
     }
     

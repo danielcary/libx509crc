@@ -1,6 +1,7 @@
 #include <CUnit/Basic.h>
 
 #include <stdlib.h>
+#include <limits.h>
 #include <unistd.h>
 
 #include "tests.h"
@@ -90,9 +91,8 @@ static void https_get_test() {
     servers_start_crl_https();
     
     // load crl (which is going to be the content of the HTTPS GET response)
-    char wd[1024];
-    char crl_path[1024];
-    getcwd(wd, 1024);
+    char* wd = get_current_dir_name();
+    char crl_path[PATH_MAX];
     sprintf(crl_path, "%s/test/certs/root/ca/intermediate/crl/intermediate.crl.der", wd);
 
     // get the crl file size and content

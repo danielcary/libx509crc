@@ -14,10 +14,9 @@ static int run_driver(const char* args, const char* out_file) {
     int pid;
 
     if((pid = fork()) == 0) {
-        char buf[1024];
-        char f[1024];
-        getcwd(buf, 1024);
-        sprintf(f, "%s/test/blackbox.sh", buf);
+        char f[PATH_MAX];
+        char* wd = get_current_dir_name();
+        sprintf(f, "%s/test/blackbox.sh", wd);
 
         execl("/bin/sh", "sh", f, args, out_file, NULL);
         printf("here\n");
@@ -32,14 +31,13 @@ static int run_driver(const char* args, const char* out_file) {
 
 // returns 0 if same
 static int diff(const char* actual_fname, const char* expected_fname) {
-    char buf[1024];
-    getcwd(buf, 1024);
+    char* wd = get_current_dir_name();
 
-    char actual_fpath[1024];
-    char expected_fpath[1024];    
+    char actual_fpath[PATH_MAX];
+    char expected_fpath[PATH_MAX];    
     
-    sprintf(actual_fpath, "%s/bb_actual/%s", buf, actual_fname);
-    sprintf(expected_fpath, "%s/test/expected/%s", buf, expected_fname);
+    sprintf(actual_fpath, "%s/bb_actual/%s", wd, actual_fname);
+    sprintf(expected_fpath, "%s/test/expected/%s", wd, expected_fname);
 
     FILE* actual_fp = fopen(actual_fpath, "r+");
     FILE* expected_fp = fopen(expected_fpath, "r+");

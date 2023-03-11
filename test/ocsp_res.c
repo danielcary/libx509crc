@@ -17,22 +17,19 @@
 void ocsp_res_sign_name(const char* name, OCSP_BASICRESP* res)
 {
     //  load certificates
-    char wd[1024];
-    char ca_dir_path[1024];
-    getcwd(wd, 1024);
-    sprintf(ca_dir_path, "%s/test/certs/root/ca", wd);
+    char* wd = get_current_dir_name();
 
-    char rsigner_filepath[1024];
-    sprintf(rsigner_filepath, "%s/intermediate/certs/%s.cert.pem", ca_dir_path, name);
+    char rsigner_filepath[PATH_MAX];
+    sprintf(rsigner_filepath, "%s/test/certs/root/ca/intermediate/certs/%s.cert.pem", wd, name);
 
-    char rkey_filepath[1024];
-    sprintf(rkey_filepath, "%s/intermediate/private/%s.key.pem", ca_dir_path, name);
+    char rkey_filepath[PATH_MAX];
+    sprintf(rkey_filepath, "%s/test/certs/root/ca/intermediate/private/%s.key.pem", wd, name);
 
-    char i_path[1024];
-    sprintf(i_path, "%s/intermediate/certs/intermediate.cert.pem", ca_dir_path);
+    char i_path[PATH_MAX];
+    sprintf(i_path, "%s/test/certs/root/ca/intermediate/certs/intermediate.cert.pem", wd);
 
-    char ca_path[1024];
-    sprintf(ca_path, "%s/certs/ca.cert.pem", ca_dir_path);
+    char ca_path[PATH_MAX];
+    sprintf(ca_path, "%s/test/certs/root/ca/certs/ca.cert.pem", wd);
 
     FILE *rsigner_fp = fopen(rsigner_filepath, "r");
     FILE *rkey_fp = fopen(rkey_filepath, "r");
@@ -308,16 +305,13 @@ int ocsp_res_join()
 static int load_certs(SSL_CTX *ctx, const char *server_name)
 {
     //  load certificates
-    char wd[1024];
-    char i_dir_path[1024];
-    getcwd(wd, 1024);
-    sprintf(i_dir_path, "%s/test/certs/root/ca/intermediate", wd);
+    char* wd = get_current_dir_name();
 
-    char cert_filepath[1024];
-    sprintf(cert_filepath, "%s/certs/%s.fullchain.pem", i_dir_path, server_name);
+    char cert_filepath[PATH_MAX];
+    sprintf(cert_filepath, "%s/test/certs/root/ca/intermediate/certs/%s.fullchain.pem", wd, server_name);
     
-    char key_filepath[1024];
-    sprintf(key_filepath, "%s/private/%s.key.pem", i_dir_path, server_name);
+    char key_filepath[PATH_MAX];
+    sprintf(key_filepath, "%s/test/certs/root/ca/intermediate/private/%s.key.pem", wd, server_name);
 
     return SSL_CTX_use_certificate_file(ctx, (const char*)cert_filepath, SSL_FILETYPE_PEM) 
         && SSL_CTX_use_PrivateKey_file(ctx, (const char*)key_filepath, SSL_FILETYPE_PEM) 

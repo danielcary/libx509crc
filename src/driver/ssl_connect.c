@@ -35,10 +35,9 @@ SSL* create_connection(const char *url, int port, void* staplingcb, int *staplin
     SSL_CTX_enable_ct(ssl_ctx, SSL_CT_VALIDATION_PERMISSIVE);
     
     SSL_CTX_load_verify_locations(ssl_ctx, NULL, "/etc/ssl/certs");
-    char buf[1024];
-    char dir[1024];
-    getcwd(buf, 1024);
-    sprintf(dir, "%s/test/certs/root/ca/certs", buf);
+    char dir[PATH_MAX];
+    char* wd = get_current_dir_name();
+    sprintf(dir, "%s/test/certs/root/ca/certs", wd);
     // printf("%s\n", dir);
     SSL_CTX_load_verify_locations(ssl_ctx, NULL, dir);
     ssl = SSL_new(ssl_ctx);
